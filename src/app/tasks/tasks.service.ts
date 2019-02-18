@@ -1,38 +1,51 @@
 import { Injectable } from '@angular/core';
 import { Task } from './tasks';
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
+import { finalize, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TasksService {
 
-  private readonly API = '';
+  private readonly API = 'http://prova.scytlbrasil.com:81/Api';
+  private readonly getUrl = '/tasks?userid=07ae89bd848e414ba160afd6330cac';
   
-  private tasks: Task[] = [
-    {id: 1, title: 'Schedule n1', description: '', completed: false, deadline: '08/02/1996'},
-    {id: 2, title: 'Schedule n2', description: '', completed: false, deadline: '08/02/1996'},
-    {id: 3, title: 'Schedule n3', description: '', completed: false, deadline: '08/02/1996'},
-    {id: 4, title: 'Schedule n4', description: '', completed: false, deadline: '08/02/1996'},
-    {id: 5, title: 'Schedule n5', description: '', completed: false, deadline: '08/02/1996'},
-    {id: 6, title: 'Schedule n6', description: '', completed: false, deadline: '08/02/1996'},
-    {id: 7, title: 'Schedule n7', description: '', completed: false, deadline: '08/02/1996'},
-    {id: 8, title: 'Schedule n8', description: '', completed: false, deadline: '08/02/1996'}
-  ];
+  constructor(
+    private http: HttpClient
+  ) { }
 
-  constructor() { }
+  
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Access-Control-Allow-Origin': '*',
+    })
+  };
 
   getTasks() {
-    return this.tasks;
+    return this.http.get<Task[]>(this.API + this.getUrl)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
   }
 
-  //por enquanto
-  getTask(id: number) {   
-    for (let i=0; i<this.tasks.length; i++) {
-      let task = this.tasks[i];
-      if (task.id == id) {
-        return task;
-      }
+  handleError(error: HttpErrorResponse) {
+    if (error.error instanceof ErrorEvent) {
+      console.error('An error occurred:', error.error.message);
+    } else {
+      console.error(
+        `Backend returned code ${error.status}, ` +
+        `body was: ${error.error}`);
     }
+    return throwError(
+      'Something bad happened; please try again later.');
+  }
+
+  getTask(id: number) {
     return null;
   }
+
 }

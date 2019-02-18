@@ -1,7 +1,8 @@
 export interface Task {
-    id: number;
-    title: string;
-    description: string;
-    completed: boolean;
-    deadline: string; //por enquanto
+    Id: number;
+    Title: string;
+    Description: string;
+    Completed: boolean;
+    Deadline: any; //por enquanto
+    UserId: string;
 }

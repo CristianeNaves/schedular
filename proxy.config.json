@@ -1,0 +1,7 @@
+{
+    "/api/*": {
+      "target": "http://http://prova.scytlbrasil.com:81/Api",
+      "secure": false,
+      "pathRewrite": {"^/api" : ""}
+    }
+}

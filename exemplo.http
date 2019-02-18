@@ -1,0 +1,23 @@
+//GET
+//http://prova.scytlbrasil.com:81/Api/tasks?userid=07ae89bd848e414ba160afd6330cac
+//POST http://prova.scytlbrasil.com:81/Api/tasks/PostTask?userid=07ae89bd848e414ba160afd6330cac HTTP/1.1
+//content-type: application/json
+
+//{
+//   "title": "test",
+//}
+
+//UPDATE
+//POST http://prova.scytlbrasil.com:81/Api/tasks/EditTask?id=26&userid=07ae89bd848e414ba160afd6330cac HTTP/1.1
+//content-type: application/json
+
+//{
+//    "title": "new test",
+//    "description": "a new description"
+//}
+
+//DELETE
+//POST http://prova.scytlbrasil.com:81/Api/tasks/RemoveTask?id=26&userid=07ae89bd848e414ba160afd6330cac HTTP/1.1
+
+//GET Id
+//http://prova.scytlbrasil.com:81/Api/tasks/GetTask?id=26&userid=07ae89bd848e414ba160afd6330cac
