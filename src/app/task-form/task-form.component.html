@@ -1,44 +1,50 @@
-<label for="title" class="mt-2">Title</label>
-<input type="text" class="form-control"
-  id="title" placeholder="Title" required
-  [class.is-invalid]="false" #title>
-<!--div class="invalid-feedback">
-  Please provide a valid city.
-</div>-->
+<form #f="ngForm" (ngSubmit)="onSubmit(f)" *ngIf="task">
+  <div class="form-group">
+    <label for="title" class="mt-2">Title</label>
+    <input type="text" class="form-control" name="title" id="title" placeholder="Title"
+     required
+     [(ngModel)]="task.Title">
+  </div>
 
-<div class="form-group mt-2" >
-  <label for="description">Description</label>
-  <textarea class="form-control" rows="3" id="description"></textarea>
-</div>
+  <div class="form-group mt-2">
+    <label for="description">Description</label>
+    <textarea class="form-control" rows="3" id="description" 
+    [(ngModel)]="task.Description" name="description"></textarea>
+  </div>
 
-<div class="form-group row">
-  <label class="col-sm-6 col-md-3 schedule-label">Is this schedule completed?</label>
-  <div class="col-sm-6 col-md-9">
-    <div class="custom-control custom-radio custom-control-inline">
-      <input type="radio" id="completed-yes" name="completed" class="custom-control-input">
-      <label class="custom-control-label" for="completed-yes">Yes</label>
-    </div>
-    
-    <div class="custom-control custom-radio custom-control-inline">
-      <input type="radio" id="completed-no" name="completed" class="custom-control-input">
-      <label class="custom-control-label" for="completed-no">No</label>
+  <div class="form-group row">
+    <label class="col-sm-6 col-md-3">Is this schedule completed?</label>
+    <div class="col-sm-6 col-md-9">
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="completed-yes" 
+          name="completed" [(ngModel)]="task.Completed" 
+          class="custom-control-input" value="true">
+        <label class="custom-control-label" for="completed-yes">Yes</label>
+      </div>
+      <div class="custom-control custom-radio custom-control-inline">
+        <input type="radio" id="completed-no" name="completed" 
+        class="custom-control-input" [(ngModel)]="task.Completed" value="false">
+        <label class="custom-control-label" for="completed-no">No</label>
+      </div>
     </div>
   </div>
-</div>
 
-<div class="form-group row mt-2">
-  <label for="deadline" class="col-sm-6 col-4 col-md-3">Deadline: </label>
-  <div class="col-sm-6 col-8 col-md-9">
-    <input
-        class="form-control"
-        placeholder="MM/DD/YYYY"
-        bsDatepicker
-        placement="top"
-        [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }">
+  <div class="form-group row mt-2">
+    <label for="deadline" class="col-sm-6 col-4 col-md-3">Deadline: </label>
+    <div class="col-sm-6 col-8 col-md-9">
+      <input
+      [(ngModel)]="task.Deadline"
+      name="deadline"
+      class="form-control"
+      placeholder="MM/DD/YYYY"
+      bsDatepicker
+      placement="top"
+      [bsConfig]="{ dateInputFormat: 'MM/DD/YYYY' }">
+    </div>
   </div>
-</div>
 
-<div class="fixed-bottom d-flex justify-content-center row">
+  <div class="fixed-bottom d-flex justify-content-center row">
     <button class="btn btn-outline-danger mb-4 mt-4 mr-1 shadow col-5">delete schedule</button>
-    <button class="btn btn-outline-info mb-4 mt-4 shadow col-5">update schedule</button>
-</div>
+    <button class="btn btn-outline-info mb-4 mt-4 shadow col-5" type="submit">update schedule</button>
+  </div>
+</form>

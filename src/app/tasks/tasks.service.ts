@@ -11,8 +11,9 @@ import { finalize, tap } from 'rxjs/operators';
 export class TasksService {
 
   private readonly API = 'http://prova.scytlbrasil.com:81/Api';
-  private readonly getUrl = '/tasks?userid=07ae89bd848e414ba160afd6330cac';
-  
+  //private readonly getUrl = '/tasks?userid=07ae89bd848e414ba160afd6330cac';
+  private readonly userid = "07ae89bd848e414ba160afd6330cac";
+
   constructor(
     private http: HttpClient
   ) { }
@@ -25,7 +26,17 @@ export class TasksService {
   };
 
   getTasks() {
-    return this.http.get<Task[]>(this.API + this.getUrl)
+    let getUrl = `/tasks?userid=${this.userid}`;
+    return this.http.get<Task[]>(this.API + getUrl)
+      .pipe(
+        retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  getTask(id: number) {
+    let url = `/tasks/GetTask?id=${id}&userid=${this.userid}`;
+    return this.http.get<Task>(this.API + url)
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -44,8 +55,5 @@ export class TasksService {
       'Something bad happened; please try again later.');
   }
 
-  getTask(id: number) {
-    return null;
-  }
 
 }

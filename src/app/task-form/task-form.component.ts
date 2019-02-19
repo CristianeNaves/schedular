@@ -11,8 +11,9 @@ import { Subscription } from 'rxjs';
 })
 export class TaskFormComponent implements OnInit {
 
-  task: Task;
-  sub: Subscription;
+  private task: Task;
+  private sub: Subscription;
+  private subTask: Subscription;
 
   constructor(
     private route: ActivatedRoute,
@@ -23,14 +24,22 @@ export class TaskFormComponent implements OnInit {
     this.sub = this.route.params.subscribe(
       (params: any) => {
         let id = params["id"];
-        this.task = this.tasksService.getTask(id);
-        //caso task for null
-      }
-    );
+        this.subTask = this.tasksService.getTask(id).subscribe(
+          data => { this.task = data
+            console.log(this.task)
+          }
+
+        );
+      });
   }
 
   ngOnDestroy() {
     this.sub.unsubscribe(); 
+    this.subTask.unsubscribe();
+  }
+
+  onSubmit(form){
+    console.log(form);
   }
 
 }

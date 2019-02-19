@@ -7,6 +7,7 @@ import { TasksComponent } from './tasks/tasks.component';
 import { TaskFormComponent } from './task-form/task-form.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     BsDatepickerModule.forRoot(),
     HttpClientModule,
+    FormsModule,
     AppRoutingModule
   ],
   providers: [],
