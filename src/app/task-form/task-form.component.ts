@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Task } from '../tasks/tasks';
 import { TasksService } from '../tasks/tasks.service';
 import { Subscription } from 'rxjs';
@@ -14,10 +14,12 @@ export class TaskFormComponent implements OnInit {
   private task: Task = {Title: null, Description: null, Completed: null, Deadline: null, UserId: "07ae89bd848e414ba160afd6330cac"};
   private sub: Subscription;
   private subTask: Subscription;
+  private showDeleteScreen: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
-    private tasksService: TasksService
+    private tasksService: TasksService,
+    private router: Router
   ) { }
 
   ngOnInit() {
@@ -53,6 +55,15 @@ export class TaskFormComponent implements OnInit {
         );
       }
     }
+    this.router.navigate(['']);
+  }
+
+  deleteTask() {
+    this.tasksService.deleteTask(this.task).subscribe(
+      (val) => { console.log(val) },
+      (error) => { console.log(error) }
+    );
+    this.router.navigate(['']);  //nao vai estar atualizado
   }
 
 }

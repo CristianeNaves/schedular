@@ -58,6 +58,16 @@ export class TasksService {
       );
   }
 
+  deleteTask(task: Task) {
+    console.log("aqui");
+    let urlDelete = `/tasks/RemoveTask?id=${task.Id}&userid=${this.userid}`;
+
+    return this.http.post(this.API + urlDelete,{}, this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
   handleError(error: HttpErrorResponse) {
     if (error.error instanceof ErrorEvent) {
       console.error('An error occurred:', error.error.message);
