@@ -11,7 +11,7 @@ import { Subscription } from 'rxjs';
 })
 export class TaskFormComponent implements OnInit {
 
-  private task: Task;
+  private task: Task = {Title: null, Description: null, Completed: null, Deadline: null, UserId: "07ae89bd848e414ba160afd6330cac"};
   private sub: Subscription;
   private subTask: Subscription;
 
@@ -23,13 +23,13 @@ export class TaskFormComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(
       (params: any) => {
+        // o que acontece se passar um id inexistente
         let id = params["id"];
-        this.subTask = this.tasksService.getTask(id).subscribe(
-          data => { this.task = data
-            console.log(this.task)
-          }
-
-        );
+        if (id) {
+          this.subTask = this.tasksService.getTask(id).subscribe(
+            data => this.task = data
+          );
+        }
       });
   }
 
@@ -39,7 +39,14 @@ export class TaskFormComponent implements OnInit {
   }
 
   onSubmit(form){
-    console.log(form);
+    if (this.task.Id == undefined || this.task.Id == null) {
+      if (this.task.Title) {
+        this.tasksService.createTask(this.task).subscribe(
+          (val) => { console.log(val) },
+          (error) => { console.log(error) }
+        );
+      }
+    }
   }
 
 }

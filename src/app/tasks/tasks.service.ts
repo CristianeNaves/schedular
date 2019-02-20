@@ -18,13 +18,6 @@ export class TasksService {
     private http: HttpClient
   ) { }
 
-  
-  private httpOptions = {
-    headers: new HttpHeaders({
-      'Access-Control-Allow-Origin': '*',
-    })
-  };
-
   getTasks() {
     let getUrl = `/tasks?userid=${this.userid}`;
     return this.http.get<Task[]>(this.API + getUrl)
@@ -39,6 +32,19 @@ export class TasksService {
     return this.http.get<Task>(this.API + url)
       .pipe(
         retry(3),
+        catchError(this.handleError)
+      );
+  }
+
+  createTask(task: Task) {
+    let urlCreate = `/tasks/PostTask?userid=${this.userid}`;
+    let httpOptions = {
+      headers: new HttpHeaders({
+        'Content-Type':  'application/json',
+      })
+    };
+    return this.http.post(this.API + urlCreate, task, httpOptions)
+      .pipe(
         catchError(this.handleError)
       );
   }
