@@ -39,9 +39,15 @@ export class TaskFormComponent implements OnInit {
   }
 
   onSubmit(form){
-    if (this.task.Id == undefined || this.task.Id == null) {
-      if (this.task.Title) {
+    //arrumar o completed e o deadline
+    if (this.task.Title) {
+      if (this.task.Id == undefined || this.task.Id == null) {
         this.tasksService.createTask(this.task).subscribe(
+          (val) => { console.log(val) },
+          (error) => { console.log(error) }
+        );
+      } else {
+        this.tasksService.updateTask(this.task).subscribe(
           (val) => { console.log(val) },
           (error) => { console.log(error) }
         );

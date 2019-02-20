@@ -11,8 +11,12 @@ import { finalize, tap } from 'rxjs/operators';
 export class TasksService {
 
   private readonly API = 'http://prova.scytlbrasil.com:81/Api';
-  //private readonly getUrl = '/tasks?userid=07ae89bd848e414ba160afd6330cac';
   private readonly userid = "07ae89bd848e414ba160afd6330cac";
+  private httpOptions = {
+    headers: new HttpHeaders({
+      'Content-Type':  'application/json',
+    })
+  };
 
   constructor(
     private http: HttpClient
@@ -38,12 +42,17 @@ export class TasksService {
 
   createTask(task: Task) {
     let urlCreate = `/tasks/PostTask?userid=${this.userid}`;
-    let httpOptions = {
-      headers: new HttpHeaders({
-        'Content-Type':  'application/json',
-      })
-    };
-    return this.http.post(this.API + urlCreate, task, httpOptions)
+
+    return this.http.post(this.API + urlCreate, task, this.httpOptions)
+      .pipe(
+        catchError(this.handleError)
+      );
+  }
+
+  updateTask(task: Task) {
+    let urlUpdate = `/tasks/EditTask?id=${task.Id}&userid=${this.userid}`;
+
+    return this.http.post(this.API + urlUpdate, task, this.httpOptions)
       .pipe(
         catchError(this.handleError)
       );
