@@ -25,25 +25,34 @@ export class TaskFormComponent implements OnInit {
   ngOnInit() {
     this.sub = this.route.params.subscribe(
       (params: any) => {
-        // o que acontece se passar um id inexistente
         let id = params["id"];
-        if (id) {
+        if (id) { 
           this.subTask = this.tasksService.getTask(id).subscribe(
-            data => this.task = data
+          data => { this.task = data, 
+            this.tasksService.configInputParams(this.task) 
+          console.log(this.task)},
+          error => { 
+            this.router.navigate([''])
+          }
           );
-        }
+        } 
       });
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe(); 
-    this.subTask.unsubscribe();
+    if (this.sub) {
+      this.sub.unsubscribe(); 
+    }
+    if (this.subTask){
+      this.subTask.unsubscribe();
+    }
   }
 
   onSubmit(form){
     //arrumar o completed e o deadline
     if (this.task.Title) {
       if (this.task.Id == undefined || this.task.Id == null) {
+        console.log(this.task);
         this.tasksService.createTask(this.task).subscribe(
           (val) => { console.log(val) },
           (error) => { console.log(error) }
@@ -55,6 +64,7 @@ export class TaskFormComponent implements OnInit {
         );
       }
     }
+    console.log("aqui");  //nao entrar no submit se o title nao estive preenchido
     this.router.navigate(['']);
   }
 

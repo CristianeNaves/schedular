@@ -32,17 +32,18 @@ export class TasksService {
   }
 
   getTask(id: number) {
-    let url = `/tasks/GetTask?id=${id}&userid=${this.userid}`;
-    return this.http.get<Task>(this.API + url)
+    let getUrl = `/tasks/GetTask?id=${id}&userid=${this.userid}`;
+
+    return this.http.get<Task>(this.API + getUrl)
       .pipe(
-        retry(3),
         catchError(this.handleError)
       );
   }
 
   createTask(task: Task) {
     let urlCreate = `/tasks/PostTask?userid=${this.userid}`;
-
+    this.configOutputParams(task);
+    console.log(task);
     return this.http.post(this.API + urlCreate, task, this.httpOptions)
       .pipe(
         catchError(this.handleError)
@@ -51,7 +52,7 @@ export class TasksService {
 
   updateTask(task: Task) {
     let urlUpdate = `/tasks/EditTask?id=${task.Id}&userid=${this.userid}`;
-
+    this.configOutputParams(task);
     return this.http.post(this.API + urlUpdate, task, this.httpOptions)
       .pipe(
         catchError(this.handleError)
@@ -76,9 +77,25 @@ export class TasksService {
         `Backend returned code ${error.status}, ` +
         `body was: ${error.error}`);
     }
-    return throwError(
-      'Something bad happened; please try again later.');
+    return throwError({errorStatus: error.status});
   }
 
+  configOutputParams(task: Task) {
+    if (task.Completed != null) {
+      task.Completed = Boolean(task.Completed);
+    }
+    if (task.Deadline != null) {
+      let day =`0${task.Deadline.getDate()}`.substr(-2);
+      let month =`0${task.Deadline.getMonth() + 1}`.substr(-2);
+      let year = task.Deadline.getFullYear();
+      task.Deadline = month + "/" + day + "/" + year;
+    }
+  }
+
+  configInputParams (task: Task) {
+    if (task.Deadline != null) {
+      task.Deadline = new Date(task.Deadline);
+    }
+  }
 
 }
