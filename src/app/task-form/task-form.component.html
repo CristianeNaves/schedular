@@ -1,6 +1,6 @@
 <form #f="ngForm" (ngSubmit)="onSubmit(f)" *ngIf="task && !showDeleteScreen">
   <div class="form-group">
-    <label for="title" class="mt-2">Title</label>
+    <label for="title" class="mt-4">Title</label>
     <input type="text" class="form-control" name="title" 
       id="title" placeholder="Title" [(ngModel)]="task.Title">
   </div>
@@ -43,14 +43,15 @@
   </div>
 
   <div class="fixed-bottom d-flex justify-content-center row" *ngIf="task.Id">
-    <button type="button" class="btn btn-outline-danger mb-4 mt-4 mr-1 shadow col-5"
-    (click)="showDeleteScreen = true">delete schedule</button>
-    <button class="btn btn-outline-info mb-4 mt-4 shadow col-5" type="submit">update schedule</button>
+    <button class="btn btn-outline-danger mb-4 mt-4 mr-1 shadow-sm col-5"
+    (click)="showDeleteScreen = true" type="button">delete schedule</button>
+    <button class="btn btn-outline-info mb-4 mt-4 shadow-sm col-5" 
+    type="submit">update schedule</button>
   </div>
   
   <div class="fixed-bottom d-flex justify-content-center" *ngIf="!task.Id">
-    <button class="btn btn-info mb-4 mt-4 shadow"
-    type="submit">CREATE SCHEDULE</button>
+    <button class="btn btn-info mb-4 mt-4 shadow-sm text-uppercase"
+    type="submit" style="font-size: 0.9rem">CREATE SCHEDULE</button>
   </div>
 
 </form>
