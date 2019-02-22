@@ -2,13 +2,18 @@
   <div class="form-group">
     <label for="title" class="mt-4">Title</label>
     <input type="text" class="form-control" name="title" 
-      id="title" placeholder="Title" [(ngModel)]="task.Title">
-  </div>
+      [class.is-invalid]="!title.valid && title.touched"
+      id="title" placeholder="Title" [(ngModel)]="task.Title" 
+      required #title="ngModel" maxlength="100">
+      <div class="invalid-feedback">
+        The title is required.
+      </div>
+    </div>
 
   <div class="form-group mt-2">
     <label for="description">Description</label>
     <textarea class="form-control" rows="3" id="description" 
-    [(ngModel)]="task.Description" name="description"></textarea>
+    [(ngModel)]="task.Description" name="description" maxlength="400"></textarea>
   </div>
 
   <div class="form-group row">
@@ -46,12 +51,12 @@
     <button class="btn btn-outline-danger mb-4 mt-4 mr-1 shadow-sm col-5"
     (click)="showDeleteScreen = true" type="button">delete schedule</button>
     <button class="btn btn-outline-info mb-4 mt-4 shadow-sm col-5" 
-    type="submit">update schedule</button>
+    type="submit" [disabled]="!f.valid">update schedule</button>
   </div>
   
   <div class="fixed-bottom d-flex justify-content-center" *ngIf="!task.Id">
     <button class="btn btn-info mb-4 mt-4 shadow-sm text-uppercase"
-    type="submit" style="font-size: 0.9rem">CREATE SCHEDULE</button>
+    type="submit" [disabled]="!f.valid" style="font-size: 0.9rem">CREATE SCHEDULE</button>
   </div>
 
 </form>
