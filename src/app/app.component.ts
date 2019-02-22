@@ -7,4 +7,13 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'schedular';
+  private toggler: boolean = false;
+
+  constructor () { }
+
+  getUrl() {
+    return window.location.pathname;
+  }
+  //pegar rota da pagina
+
 }
