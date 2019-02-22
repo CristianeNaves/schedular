@@ -11,7 +11,6 @@ import { Subscription } from 'rxjs';
 export class TasksComponent implements OnInit {
 
   private tasks: Task[];
-  private error: any;
   private sub: Subscription;
 
   constructor(private tasksService: TasksService) { }
@@ -19,12 +18,12 @@ export class TasksComponent implements OnInit {
   ngOnInit() {
     this.sub = this.tasksService.getTasks().subscribe(
       (data: Task[]) => { this.tasks = data },
-      error => this.error = error
+      error => console.log(error)
     );
   }
 
   ngOnDestroy() {
-    this.sub.unsubscribe();
+    if (this.sub) this.sub.unsubscribe();
   }
 
 }

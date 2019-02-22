@@ -3,7 +3,6 @@ import { Task } from './tasks';
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
-import { finalize, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -24,6 +23,7 @@ export class TasksService {
 
   getTasks() {
     let getUrl = `/tasks?userid=${this.userid}`;
+
     return this.http.get<Task[]>(this.API + getUrl)
       .pipe(
         retry(3),
@@ -43,7 +43,7 @@ export class TasksService {
   createTask(task: Task) {
     let urlCreate = `/tasks/PostTask?userid=${this.userid}`;
     this.configOutputParams(task);
-    console.log(task);
+
     return this.http.post(this.API + urlCreate, task, this.httpOptions)
       .pipe(
         catchError(this.handleError)
@@ -53,6 +53,7 @@ export class TasksService {
   updateTask(task: Task) {
     let urlUpdate = `/tasks/EditTask?id=${task.Id}&userid=${this.userid}`;
     this.configOutputParams(task);
+
     return this.http.post(this.API + urlUpdate, task, this.httpOptions)
       .pipe(
         catchError(this.handleError)
@@ -60,7 +61,6 @@ export class TasksService {
   }
 
   deleteTask(task: Task) {
-    console.log("aqui");
     let urlDelete = `/tasks/RemoveTask?id=${task.Id}&userid=${this.userid}`;
 
     return this.http.post(this.API + urlDelete,{}, this.httpOptions)

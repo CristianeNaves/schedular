@@ -16,6 +16,7 @@ export class TaskFormComponent implements OnInit {
   private subTask: Subscription;
   private subUpdate: Subscription;
   private subCreate: Subscription;
+  private subDel: Subscription;
   private showDeleteScreen: boolean = false;
 
   constructor(
@@ -43,25 +44,23 @@ export class TaskFormComponent implements OnInit {
     if (this.task.Title) {
       if (this.task.Id == undefined || this.task.Id == null) {
         this.subCreate = this.tasksService.createTask(this.task).subscribe(
-          (response) => console.log(response),
-          (error) => console.log(error)
+          (response) => { console.log(response), this.router.navigate(['']) },
+          (error) => { console.log(error), this.router.navigate(['']) },
           );
       } else {
-        this.subUpdate = this.tasksService.updateTask(this.task).subscribe(
-          (response) => console.log(response),
-          (error) => console.log(error)
+        this.subCreate = this.tasksService.updateTask(this.task).subscribe(
+          (response) => { console.log(response); this.router.navigate(['']) },
+          (error) => { console.log(error); this.router.navigate(['']) }
           );
-        }
       }
-    this.router.navigate(['']);
+    }
   }
     
   deleteTask() {
-    this.tasksService.deleteTask(this.task).subscribe(
-      (response) => console.log(response),
-      (error) => console.log(error)
+    this.subDel = this.tasksService.deleteTask(this.task).subscribe(
+      (response) => { console.log(response); this.router.navigate(['']) },
+      (error) => { console.log(error); this.router.navigate(['']) }
     );
-    this.router.navigate(['']);  //nao vai estar atualizado
   }
       
   ngOnDestroy() {
@@ -69,6 +68,7 @@ export class TaskFormComponent implements OnInit {
     if (this.subTask) this.subTask.unsubscribe();
     if (this.subCreate) this.subCreate.unsubscribe();
     if (this.subUpdate) this.subUpdate.unsubscribe();
+    if (this.subDel) this.subDel.unsubscribe();
   }
 }
     
