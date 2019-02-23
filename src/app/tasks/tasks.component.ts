@@ -15,6 +15,7 @@ export class TasksComponent implements OnInit {
 
   constructor(private tasksService: TasksService) { }
 
+  /** Gets the tasks to display it in the Main Screen */
   ngOnInit() {
     this.sub = this.tasksService.getTasks().subscribe(
       (data: Task[]) => { this.tasks = data },

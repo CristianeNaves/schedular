@@ -3,6 +3,6 @@ export interface Task {
     Title: string;
     Description: string;
     Completed: boolean;
-    Deadline: any; //por enquanto
+    Deadline: any;
     UserId: string;
 }

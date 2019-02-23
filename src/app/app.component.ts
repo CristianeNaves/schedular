@@ -9,11 +9,11 @@ export class AppComponent {
   title = 'schedular';
   private toggler: boolean = false;
 
-  constructor () { }
-
-  getUrl() {
-    return window.location.pathname;
+  /** This function checks if the actual url is the Main Screen to
+   *  decide what option will be used in the navbar*/
+  isMainScreen(){
+    let url = window.location.pathname;
+    return (url == '' || url == '/');
   }
-  //pegar rota da pagina
 
 }
