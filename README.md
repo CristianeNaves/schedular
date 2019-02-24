@@ -2,8 +2,7 @@
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.1.
 
-O projeto foi ...
-
+O projeto foi realizado no Ubuntu 18.04.
 
 ## Para executar o projeto
 
