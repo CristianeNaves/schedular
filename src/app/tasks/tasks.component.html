@@ -1,4 +1,4 @@
-<div class="list-group pre-scrollable list-landscape">
+<div class="list-group pre-scrollable list-landscape" *ngIf="!loading">
   <a class="list-group-item list-group-item-action mt-3 rounded border-white shadow-sm"
   *ngFor="let task of tasks"
   [routerLink]="['/task', task.Id, 'edit']">{{ task.Title }}</a>
@@ -6,4 +6,8 @@
 <div class="fixed-bottom d-flex justify-content-center">
   <button class="btn btn-outline-info bg-white mb-4 mt-4 shadow-sm"
   routerLink="task/create" style="font-size: 0.9rem">CREATE NEW SCHEDULE</button>
+</div>
+
+<div class="spinner-border text-primary mt-4" role="status" *ngIf="loading">
+  <span class="sr-only">Loading...</span>
 </div>

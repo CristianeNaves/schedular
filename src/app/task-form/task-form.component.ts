@@ -20,6 +20,7 @@ export class TaskFormComponent implements OnInit {
   private subDel: Subscription;
   
   private showDeleteScreen: boolean = false;
+  private loading: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -34,12 +35,17 @@ export class TaskFormComponent implements OnInit {
       (params: any) => {
         let id = params["id"];
   
-        if (id) { 
+        if (id) {
+          this.loading = true;
+ 
           this.subTask = this.tasksService.getTask(id).subscribe(
           (data) => { this.task = data, 
-            this.tasksService.configInputParams(this.task) },
+            this.tasksService.configInputParams(this.task),
+            this.loading = false;
+          },
           (error) => { 
-            this.router.navigate([''])
+            this.router.navigate(['']),
+            this.loading = false;
           });
         } 
       });
