@@ -1,0 +1,8 @@
+@media screen and (min-device-width: 480px) and (max-device-width: 640px) and (orientation: landscape) {
+    .list-landscape a {
+       margin-top: 10px !important;
+    }
+    .list-landscape {
+        height: 200px !important;
+    }
+}
